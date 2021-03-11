@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'nonce-${nonce}'; style-src 'nonce-${nonce}'">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="${styleMainUri}" nonce="${nonce}" rel="stylesheet">
+    <title>SVG to Data Uri</title>
+</head>
+<body>
+    <div class="SVG-data-uri-form">
+        <div class="form-elelements">
+            <div class="col">
+                <textarea id="input" placeholder="Input" cols="30" rows="10"></textarea>
+            </div>
+            <div class="col">
+                <textarea id="output" placeholder="Output" cols="30" rows="10"></textarea>
+            </div>
+            <div class="col">
+                <button id="get_result">
+                    Generate
+                </button>
+            </div>
+        </div>
+    </div>
+<script nonce="${nonce}" src="${scriptAspectRatioUri}"></script>
+</body>
+</html>

@@ -1,0 +1,65 @@
+html,
+body {
+    height: 100%;
+    font-family: var(--vscode-font-family);
+    font-weight: var(--vscode-font-weight);
+    color: var(--vscode-foreground);
+}
+
+*, *:before, *:after {
+    box-sizing: border-box;
+}
+
+.SVG-data-uri-form {
+    height: 100%;
+    .form-elelements {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        height: 100%;
+        font-size: 16px;
+        .col {
+            min-width: 330px;
+            max-width: 530px;
+            width: 100%;
+            margin-bottom: 1rem;
+        }
+        textarea {
+            width: 100%;
+            background-color: var(--vscode-input-background);
+            color: var(--vscode-input-foreground);
+            border: 1px solid var(--vscode-input-border);
+            padding: 7px;
+            border-radius: 3px;
+            font-size: 13px;
+            &:focus {
+                outline: none;
+            }
+            &::placeholder {
+                color: var(--vscode-input-placeholderForeground);
+            }
+        }
+        button {
+            width: 100%;
+            background-color: var(--vscode-button-background);
+            border: 1px solid var(--vscode-button-background);
+            color: var(--vscode-button-foreground);
+            width: 100%;
+            padding: 7px 10px;
+            font-size: 16px;
+            border-radius: 3px;
+            &:hover, &:focus, &:active {
+                background-color: var(--vscode-button-hoverBackground);
+                border-color: var(--vscode-button-hoverBackground);
+                outline: none;
+            }
+        }
+
+        #result {
+            display: block;
+            width: 100%;
+            min-height: 70px;
+        }
+    }
+}
