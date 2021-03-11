@@ -10,3 +10,6 @@ vsc-extension-quickstart.md
 **/*.map
 **/*.ts
 media/scss/**
+media/js/app.js
+images/screenshot.jpg
+*vsix

@@ -105,7 +105,7 @@ class SVGDataUriPanel {
 	private _getHtmlForWebview(webview: vscode.Webview) {
 		
 		const scriptAspectRatioPathOnDisk = vscode.Uri.file(
-			path.join(this._extensionUri, 'media', 'js/app.js')
+			path.join(this._extensionUri, 'media', 'js/app.min.js')
 		);
 
 		const scriptAspectRatioUri = webview.asWebviewUri(scriptAspectRatioPathOnDisk);

@@ -5,6 +5,10 @@
   "publisher": "Babobski",
   "icon": "images/icon.png",
   "version": "0.0.1",
+  "repository": {
+		"type": "git",
+		"url": "https://github.com/babobski/SVG-Data-uri"
+	},
   "engines": {
     "vscode": "^1.54.0"
   },
