@@ -60,7 +60,7 @@ class SVGDataUriPanel {
 			
 		const panel = vscode.window.createWebviewPanel(
 			SVGDataUriPanel.viewType,
-			'Aspect Ratio Generator',
+			'SVG Data URI',
 			column || vscode.ViewColumn.One,
 			getWebviewOptions(extensionUri),
 		);
