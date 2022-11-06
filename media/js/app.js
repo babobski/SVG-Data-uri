@@ -1,42 +1,51 @@
 const vscode = acquireVsCodeApi();
-var App = {
+const App = {
     init: () => {
         document.getElementById('input').focus();
         document.getElementById('get_result').addEventListener('click', App.svgToDataUri);
         document.getElementById('input').addEventListener('input', App.svgToDataUri);
     },
     svgToDataUri: () => {
-        var input = document.getElementById('input'),
+        const input = document.getElementById('input'),
             output = document.getElementById('output'),
-            val = input.value;
+            val = input.value.replace(/(\swidth="[^"]*"|\sheight="[^"]*")/, ' '),
+            quotes = App.getQuotes(),
+            namespaced = App.addNameSpace(val),
+            escaped = App.encodeSVG(namespaced),
+            result = `${quotes.level1}data:image/svg+xml,${escaped}${quotes.level1}`;
 
-        if (val.length > 0) {
-            var result = val.replace(/(width="[^"]*"|height="[^"]*"|class="[^"]*"|style="enable-background:new[\s0-9\.]+;"|id="[^"]*"|\sx="[^"]*"|\sy="[^"]*"|version="[^"]*"|xmlns:xlink="[^"]*"|xml:space="[^"]*"|<g>|\<\/g\>|\n|\r)/gi, '');
-            result = result.replace(/(\s{2,})/g, ' ');
-            result = result.replace(/\>\s+\</g, '><');
-            result = result.replace(/#/g, '%23');
-            result = result.replace(/"/g, '\'');
-            result = result.replace(/%/g, '%25');
-            result = result.replace(/; }/g, ';}');
-            result = result.replace(/; }/g, ';}');
-            result = result.replace(/</g, '%3c');
-            result = result.replace(/>/g, '%3e');
-            result = result.replace(/\{/g, '%7b');
-            result = result.replace(/\}/g, '%7d');
-            result = result.replace(/\|/g, '%7c');
-            result = result.replace(/\^/g, '%5e');
-            result = result.replace(/`/g, '%60');
-            result = result.replace(/@/g, '%40');
-                
-            result = '"data:image/svg+xml,' + result + '"';
+        output.value = result;
 
-            output.value = result;
+        vscode.postMessage({
+            command: 'copy_result',
+            text: result
+        });
+    },
+    getQuotes: () => {
+        const double = `"`;
+        const single = `'`;
 
-            vscode.postMessage({
-                command: 'copy_result',
-                text: result
-            });
+        return {
+            level1: single,
+            level2: double
+        };
+    },
+    encodeSVG: (data) => {
+
+        const symbols = /[\r\n%#()<>?[\\\]^`{|}]/g;
+      
+        data = data.replace(/'/g, `"`);
+        data = data.replace(/>\s{1,}</g, `><`);
+        data = data.replace(/\s{2,}/g, ` `);
+
+        return data.replace(symbols, encodeURIComponent);
+    },
+    addNameSpace: (data) => {
+        if (data.indexOf(`http://www.w3.org/2000/svg`) < 0) {
+            data = data.replace(/<svg/g, `<svg xmlns=${quotes.level2}http://www.w3.org/2000/svg${quotes.level2}`);
         }
+
+        return data;
     }
 };
 
