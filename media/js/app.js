@@ -8,7 +8,7 @@ const App = {
     svgToDataUri: () => {
         const input = document.getElementById('input'),
             output = document.getElementById('output'),
-            val = input.value.replace(/(\swidth="[^"]*"|\sheight="[^"]*")/, ' '),
+            val = input.value.replace(/(width="[^"]*"|height="[^"]*")/g, ''),
             quotes = App.getQuotes(),
             namespaced = App.addNameSpace(val),
             escaped = App.encodeSVG(namespaced),
