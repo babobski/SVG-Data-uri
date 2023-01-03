@@ -1,6 +1,13 @@
 const vscode = acquireVsCodeApi();
-const App = {
+let App = {
+    externalQuotes: 'single',
     init: () => {
+        let singleQoutes = document.getElementById('single_quote');
+        let doubleQoutes = document.getElementById('double_quote');
+
+        singleQoutes.addEventListener('click', App.setExternalQoutes);
+        doubleQoutes.addEventListener('click', App.setExternalQoutes);
+
         document.getElementById('input').focus();
         document.getElementById('get_result').addEventListener('click', App.svgToDataUri);
         document.getElementById('input').addEventListener('input', App.svgToDataUri);
@@ -8,7 +15,7 @@ const App = {
     svgToDataUri: () => {
         const input = document.getElementById('input'),
             output = document.getElementById('output'),
-            val = input.value.replace(/(width="[^"]*"|height="[^"]*")/g, ''),
+            val = input.value.replace(/(\swidth="[^"]*"|\sheight="[^"]*")/g, ' '),
             quotes = App.getQuotes(),
             namespaced = App.addNameSpace(val),
             escaped = App.encodeSVG(namespaced),
@@ -21,20 +28,34 @@ const App = {
             text: result
         });
     },
+    setExternalQoutes: (e) => {
+        const quotes = e.target.dataset.quote;
+        const singleQoutes = document.getElementById('single_quote');
+        const doubleQoutes = document.getElementById('double_quote');
+        App.externalQuotes = quotes;
+
+        if (quotes === 'double') {
+            singleQoutes.classList.remove('active');
+            doubleQoutes.classList.add('active');
+        } else {
+            singleQoutes.classList.add('active');
+            doubleQoutes.classList.remove('active');
+        }
+    },
     getQuotes: () => {
         const double = `"`;
         const single = `'`;
 
         return {
-            level1: single,
-            level2: double
+            level1: App.externalQuotes === 'double' ? double : single,
+            level2: App.externalQuotes === 'double' ? single : double
         };
     },
     encodeSVG: (data) => {
 
         const symbols = /[\r\n%#()<>?[\\\]^`{|}]/g;
       
-        data = data.replace(/'/g, `"`);
+        data = App.externalQuotes === 'double' ? data.replace(/"/g, `'`) : data.replace(/'/g, `"`);
         data = data.replace(/>\s{1,}</g, `><`);
         data = data.replace(/\s{2,}/g, ` `);
 

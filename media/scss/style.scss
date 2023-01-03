@@ -12,6 +12,14 @@ body {
 
 .SVG-data-uri-form {
     height: 100%;
+    .quotes {
+        span {
+            cursor: pointer;
+        }
+        .active {
+            font-weight: bold;
+        }
+    }
     .form-elelements {
         display: flex;
         flex-direction: column;
